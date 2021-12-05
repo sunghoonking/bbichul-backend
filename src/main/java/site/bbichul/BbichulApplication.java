@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @EnableJpaAuditing
 @SpringBootApplication
-
+@PropertySource("classpath:/app.properties")
 public class BbichulApplication {
 
 	public static void main(String[] args) {
