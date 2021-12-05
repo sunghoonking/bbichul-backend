@@ -42,6 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // user 폴더를 login 없이도 사용
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/").permitAll()
 
                 .antMatchers("/login").permitAll()
                 // 모든 html 사용
