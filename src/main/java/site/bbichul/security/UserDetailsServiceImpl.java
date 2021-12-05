@@ -15,11 +15,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Can't find " + username));
 
-        User user1 = userRepository.findByUsernameAndStatus(username, false).orElseThrow(
+        User user1 = userRepository.findByUsernameAndStatus(username, false).orElseThrow( 
                 () -> new UsernameNotFoundException("아이다가 탈퇴 상태 입니다")
         );
 
