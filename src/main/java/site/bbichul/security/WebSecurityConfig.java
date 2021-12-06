@@ -3,6 +3,7 @@ package site.bbichul.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,10 +26,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http.csrf().disable(); //다른 출처 리소스를 거부함
         http.headers().frameOptions().disable();
 
         http.authorizeRequests()
+                // 다른 출처 리소스 접근 권한을 열어줌
+                .antMatchers(HttpMethod.OPTIONS,"/**/*").permitAll()
                 // images 폴더 내의 파일 로그인 없이 허용
                 .antMatchers("/img/**").permitAll()
                 // css 폴더를 login 없이 허용
@@ -39,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/audio/**").permitAll()
                 // js 폴더를 login 없이 허용
                 .antMatchers("/js/**").permitAll()
-                // user 폴더를 login 없이도 사용
+                // user 를 login 없이도 사용
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/").permitAll()
