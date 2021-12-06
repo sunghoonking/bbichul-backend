@@ -32,16 +32,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 // 다른 출처 리소스 접근 권한을 열어줌
                 .antMatchers(HttpMethod.OPTIONS,"/**/*").permitAll()
-                // images 폴더 내의 파일 로그인 없이 허용
-                .antMatchers("/img/**").permitAll()
-                // css 폴더를 login 없이 허용
-                .antMatchers("/css/**").permitAll()
-                // css 폴더를 login 없이 허용
-                .antMatchers("/vendor/**").permitAll()
-                // audio 폴더 사용
-                .antMatchers("/audio/**").permitAll()
-                // js 폴더를 login 없이 허용
-                .antMatchers("/js/**").permitAll()
+//                // images 폴더 내의 파일 로그인 없이 허용
+//                .antMatchers("/img/**").permitAll()
+//                // css 폴더를 login 없이 허용
+//                .antMatchers("/css/**").permitAll()
+//                // css 폴더를 login 없이 허용
+//                .antMatchers("/vendor/**").permitAll()
+//                // audio 폴더 사용
+//                .antMatchers("/audio/**").permitAll()
+//                // js 폴더를 login 없이 허용
+//                .antMatchers("/js/**").permitAll()
                 // user 를 login 없이도 사용
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
