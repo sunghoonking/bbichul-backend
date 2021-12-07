@@ -30,18 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
 
         http.authorizeRequests()
-                // 다른 출처 리소스 접근 권한을 열어줌
-                .antMatchers(HttpMethod.OPTIONS,"/**/*").permitAll()
-//                // images 폴더 내의 파일 로그인 없이 허용
-//                .antMatchers("/img/**").permitAll()
-//                // css 폴더를 login 없이 허용
-//                .antMatchers("/css/**").permitAll()
-//                // css 폴더를 login 없이 허용
-//                .antMatchers("/vendor/**").permitAll()
-//                // audio 폴더 사용
-//                .antMatchers("/audio/**").permitAll()
-//                // js 폴더를 login 없이 허용
-//                .antMatchers("/js/**").permitAll()
+
                 // user 를 login 없이도 사용
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
@@ -52,22 +41,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**.html").permitAll()
                 // 닉네임 중복체크 사용
                 .antMatchers("/check").permitAll()
-                //카카오 로그인 사용
-                .antMatchers("/login/kakao").permitAll()
+
                 .antMatchers("/signup").permitAll()
+
                 .antMatchers("/").permitAll()
+
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .formLogin()
-                .loginPage("/")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/user/logout")
-//                .permitAll()
-                .and()
                 .exceptionHandling();
 
 
