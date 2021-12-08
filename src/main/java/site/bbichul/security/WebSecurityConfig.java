@@ -45,6 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/signup").permitAll()
 
+                .antMatchers("/api/**").permitAll()
+
                 //스웨거 자동화 사용
                 .antMatchers("/swagger-ui.html","/swagger-ui/**","/v3/api-docs/**").permitAll()
 
