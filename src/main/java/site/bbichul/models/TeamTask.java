@@ -1,13 +1,11 @@
 package site.bbichul.models;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import site.bbichul.dto.TeamTaskRequestDto;
 
 import javax.persistence.*;
-import java.util.Optional;
 
 @Getter
 @Setter
@@ -19,14 +17,14 @@ public class TeamTask extends TimeStamped {
     @Id
     private Long id;
 
-    @Column(nullable = false, length = 500)
+    @Column(nullable = true, length = 500)
     private String task;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Boolean done;
 
     @ManyToOne
-    @JoinColumn(name = "team_id", nullable = false)
+    @JoinColumn(name = "teamId", nullable = false)
     private Team team;
 
     public TeamTask(TeamTaskRequestDto teamTaskRequestDto) {

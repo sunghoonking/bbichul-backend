@@ -2,9 +2,6 @@ package site.bbichul.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import site.bbichul.models.TeamTask;
-import site.bbichul.models.Time;
-import site.bbichul.models.User;
 import site.bbichul.models.UserInfo;
 
 import javax.transaction.Transactional;

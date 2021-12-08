@@ -1,13 +1,10 @@
 package site.bbichul.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PutMapping;
 import site.bbichul.dto.SignupRequestDto;
 import site.bbichul.dto.UserDto;
-import site.bbichul.models.Team;
 import site.bbichul.models.User;
 import site.bbichul.models.UserInfo;
 import site.bbichul.models.UserRole;
@@ -24,8 +21,6 @@ public class UserService {
     private final UserInfoRepository userInfoRepository;
     private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
     private final PasswordEncoder passwordEncoder;
-
-    private final AuthenticationManager authenticationManager;
 
     public User registerUser(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
@@ -50,7 +45,6 @@ public class UserService {
 
         UserInfo userInfo = new UserInfo();
         userInfoRepository.save(userInfo);
-
 
         User user = new User(username, password, role, userInfo);
         userRepository.save(user);
@@ -78,12 +72,17 @@ public class UserService {
         }
         return message;
     }
+
     // 회원 상태 체크
     @Transactional
     public void setStatus(UserDto userDto, String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new NullPointerException("그럴리가 없쥬")
         );
+
+        if (user.getTeam() != null) {
+            user.setTeam(null);
+        }
         user.updateStatus(userDto);
     }
 

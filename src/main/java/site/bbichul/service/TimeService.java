@@ -2,7 +2,6 @@ package site.bbichul.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import site.bbichul.dto.SignupRequestDto;
 import site.bbichul.dto.TimeRequestDto;
 import site.bbichul.models.Time;
 import site.bbichul.models.User;
@@ -27,26 +26,25 @@ public class TimeService {
         time.setYear(timeRequestDto.getYear());
         time.setMonth(timeRequestDto.getMonth());
         time.setDay(timeRequestDto.getDay());
-        time.setWeekday(timeRequestDto.getWeekday());
+        time.setWeekDay(timeRequestDto.getWeekDay());
 
         // timeRepository 에 찾은 id, year, month, day 가져와서 확인하기
-        Time time1 = timeRepository.findByUserIdAndYearAndMonthAndDay(user.getId(), timeRequestDto.getYear(), timeRequestDto.getMonth(), timeRequestDto.getDay()).orElse( null
+        Time todayTime = timeRepository.findByUserIdAndYearAndMonthAndDay(user.getId(), timeRequestDto.getYear(), timeRequestDto.getMonth(), timeRequestDto.getDay()).orElse( null
         );
         // userRepository 에 유저 아이디 가져오기
         User findUser = userRepository.findById(user.getId()).orElseThrow(
                 () -> new NullPointerException("그럴리가 없쥬")
         );
-        findUser.setStudying(timeRequestDto.isIsstudying());
+        findUser.setStudying(timeRequestDto.isStudying());
 
-        if (time1 == null) {
-            time.setStudy_time(timeRequestDto.getStudy_time());
+        if (todayTime == null) {
+            time.setStudyTime(timeRequestDto.getStudyTime());
             timeRepository.save(time);
         } else {
-            time1.updateStudyTime(timeRequestDto.getStudy_time() + time1.getStudy_time());
+            todayTime.updateStudyTime(timeRequestDto.getStudyTime() + todayTime.getStudyTime());
         }
         return time;
     }
-
 
     // 00시 기준 전날 다음날 공부 저장
     @Transactional
@@ -55,41 +53,40 @@ public class TimeService {
         time.setYear(timeRequestDto.getYear());
         time.setMonth(timeRequestDto.getMonth());
         time.setDay(timeRequestDto.getDay());
-        time.setWeekday(timeRequestDto.getWeekday());
+        time.setWeekDay(timeRequestDto.getWeekDay());
 
-        Time time3 = new Time(timeRequestDto, user);
-        time3.setYear(timeRequestDto.getYear());
-        time3.setMonth(timeRequestDto.getMonth());
-        time3.setDay(timeRequestDto.getDay()-1);
-        time3.setWeekday(timeRequestDto.getWeekday());
+        Time yesterdayTime = new Time(timeRequestDto, user);
+        yesterdayTime.setYear(timeRequestDto.getYear());
+        yesterdayTime.setMonth(timeRequestDto.getMonth());
+        yesterdayTime.setDay(timeRequestDto.getDay()-1);
+        yesterdayTime.setWeekDay(timeRequestDto.getWeekDay());
 
         // timeRepository 에 찾은 id, year, month, day 가져와서 확인하기
-        Time time2 =  timeRepository.findByUserIdAndYearAndMonthAndDay(user.getId(), timeRequestDto.getYear(), timeRequestDto.getMonth(), timeRequestDto.getDay()-1).orElse( null
+        Time setYesterdayTime =  timeRepository.findByUserIdAndYearAndMonthAndDay(user.getId(), timeRequestDto.getYear(), timeRequestDto.getMonth(), timeRequestDto.getDay()-1).orElse( null
         );
 
-        int ytime = timeRequestDto.getYesterday_time();
+        int yesterdayStudyTime = timeRequestDto.getYesterdayTime();
+
         // userRepository 에 유저 아이디 가져오기
         User findUser = userRepository.findById(user.getId()).orElseThrow(
                 () -> new NullPointerException("그럴리가 없쥬")
         );
-        findUser.setStudying(timeRequestDto.isIsstudying());
+        findUser.setStudying(timeRequestDto.isStudying());
 
-        if(ytime != 0){
+        if(yesterdayStudyTime != 0){
 
-            time.setStudy_time(timeRequestDto.getStudy_time() - ytime);
+            time.setStudyTime(timeRequestDto.getStudyTime() - yesterdayStudyTime);
             timeRepository.save(time);
 
-            if (time2 != null ){
+            if (setYesterdayTime != null ){
 
-                time2.updateStudyTime(timeRequestDto.getStudy_time()+ ytime);
+                setYesterdayTime.updateStudyTime(timeRequestDto.getStudyTime()+ yesterdayStudyTime);
 
             }  else {
-
-                time3.setStudy_time(ytime);
-                timeRepository.save(time3);
+                yesterdayTime.setStudyTime(yesterdayStudyTime);
+                timeRepository.save(yesterdayTime);
             }
         }
-
         return time;
     }
 }

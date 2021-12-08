@@ -31,8 +31,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
 
-
-                .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll() // 해당 코드 추가
                 // user 를 login 없이도 사용
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
@@ -46,7 +44,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/signup").permitAll()
 
-                .antMatchers("/").permitAll()
+                //스웨거 자동화 사용
+                .antMatchers("/swagger-ui.html","/swagger-ui/**","/v3/api-docs/**").permitAll()
+
 
                 .anyRequest().authenticated()
                 .and()
