@@ -30,6 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
 
         http.authorizeRequests()
+                // 다른 출처 리소스 접근 권한을 열어줌
+                .antMatchers(HttpMethod.OPTIONS,"/**/*").permitAll()
 
                 // user 를 login 없이도 사용
                 .antMatchers("/user/**").permitAll()
