@@ -51,7 +51,7 @@ public class CalendarService {
                 userCalendarRepository.save(userCalendarT);
             }
         }
-        Long teamId = user.getTeam() != null ? user.getTeam().getId() : null;
+        Long teamId = user.getTeam() != null ? user.getTeam().getId() : -1L;
         return userCalendarRepository.findAllByUserIdOrTeamId(user.getId(), teamId);
     }
 
