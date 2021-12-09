@@ -16,25 +16,22 @@ import site.bbichul.service.UserService;
 
 import java.time.LocalDate;
 
-
-@RequestMapping("/api")
 @RequiredArgsConstructor
 @RestController
-
+@RequestMapping("/api")
 public class TimeController {
 
     private final TimeService timeService;
     private final UserService userService;
 
-    // 공부시작 true 보내기
+    @Operation(description = "공부 시작시 check-in 기능", method = "POST")
     @PostMapping("/times/check-in")
     public void startStudy(@RequestBody UserDto userDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         String username = userDetails.getUsername();
         userService.setStudy(userDto, username);
     }
-    //공부시간 저장 및 check-out
 
-    @Operation(description = "시간저장기능",method = "post")
+    @Operation(description = "공부시간 저장 및 check-out", method = "POST")
     @PostMapping("/times/check-out")
     public Time createTime(@RequestBody TimeRequestDto timeRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
 
@@ -57,10 +54,10 @@ public class TimeController {
 
         Time time;
         if (yesterdayTime != 0){
-             time = timeService.upsertStudy(timeRequestDto, userDetails.getUser());
+            time = timeService.upsertStudy(timeRequestDto, userDetails.getUser());
 
         }else {
-             time = timeService.upsertTime(timeRequestDto, userDetails.getUser());
+            time = timeService.upsertTime(timeRequestDto, userDetails.getUser());
         }
 
         return time;
