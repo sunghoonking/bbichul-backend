@@ -39,7 +39,7 @@ public class GraphService {
 
 
             for (Time day : time) {
-                dayTimeList.set(day.getDay(), day.getStudyTime());
+                dayTimeList.set(day.getDay(), day.getStudyTime() / 60);
             }
 
 
@@ -77,7 +77,7 @@ public class GraphService {
                 }
 
 
-                weekdayAvgStudyTimeList.set(weekday, weekdayAvgStudyTime);
+                weekdayAvgStudyTimeList.set(weekday, weekdayAvgStudyTime / 60);
 
             }
 
