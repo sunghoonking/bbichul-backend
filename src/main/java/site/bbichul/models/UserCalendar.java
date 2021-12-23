@@ -3,8 +3,11 @@ package site.bbichul.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import site.bbichul.utills.UserCalendarValidator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Data
@@ -24,18 +27,31 @@ public class UserCalendar {
     @JoinColumn(name = "teamId", nullable = true)
     private Team team;
 
+    @OneToMany(mappedBy = "userCalendar", cascade = CascadeType.REMOVE)
+    List<CalendarMemo> memos = new ArrayList<>();
+
     @Column(nullable = false)
     private Boolean isPrivate;
 
+    @Column
+    private String calendarName;
 
-    public UserCalendar(User user, boolean isPrivate){
+
+    public UserCalendar(User user, boolean isPrivate, String calendarName){
+        UserCalendarValidator.validateCreateUserCalendar(user, isPrivate, calendarName);
         this.user = user;
         this.isPrivate = isPrivate;
+        this.calendarName = calendarName;
     }
 
-    public UserCalendar(Team team, boolean isPrivate){
+    public UserCalendar(Team team, boolean isPrivate, String calendarName){
+        UserCalendarValidator.validateCreateTeamCalendar(team, isPrivate, calendarName);
         this.team = team;
         this.isPrivate = isPrivate;
+        this.calendarName = calendarName;
     }
 
+    public void renameCalendar(String calendarName) {
+        this.calendarName = calendarName;
+    }
 }
