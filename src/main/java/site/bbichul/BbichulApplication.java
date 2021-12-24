@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class BbichulApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BbichulApplication.class, args);
+		SpringApplication.run(BbichulApplication.class, args); 
 	}
 
 }
