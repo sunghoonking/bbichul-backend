@@ -42,6 +42,11 @@ dependencies {
 
 	implementation 'com.google.code.gson:gson:2.8.8'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+	implementation 'com.github.maricn:logback-slack-appender:1.4.0'
+
+
+
 }
 
 jar {
